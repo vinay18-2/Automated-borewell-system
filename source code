@@ -1,0 +1,29 @@
+#define sensorPower 8
+#define led 7
+#define buz 13
+int val = 0; void setup()
+{
+Serial.begin(9600);
+delay(2000);
+// Set to LOW so no power flows through the sensor digitalWrite(sensorPower, LOW);
+pinMode(buz, OUTPUT); pinMode(led, OUTPUT); digitalWrite(buz, LOW);
+}
+int readSensor() {
+digitalWrite(sensorPower, HIGH); // Turn the sensor ON delay(10);	// wait 10 milliseconds
+val = analogRead(sensorPin);	// Read the analog value form sensor digitalWrite(sensorPower, LOW); // Turn the sensor OFF
+return val;	// send current reading
+}
+void loop()
+{
+int level = readSensor(); Serial.println(level);
+if(level<470 )
+{
+Serial.println("LOW");
+digitalWrite(buz, HIGH); digitalWrite(led,HIGH);
+}
+delay(2000); if(level>=470 )
+{
+Serial.println("HIGH"); digitalWrite(buz, LOW); digitalWrite(led, LOW);
+}
+delay(100);
+}
